@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.ShellMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Shell">
+		 <id column="id" jdbcType="INTEGER" property="id" />
+		 <result column="title" jdbcType="VARCHAR" property="title" />
+		 <result column="shell_describe" jdbcType="VARCHAR" property="shellDescribe" />
+		 <result column="shell_ip" jdbcType="VARCHAR" property="shellIp" />
+		 <result column="shell_port" jdbcType="VARCHAR" property="shellPort" />
+		 <result column="shell_username" jdbcType="VARCHAR" property="shellUsername" />
+		 <result column="shell_password" jdbcType="VARCHAR" property="shellPassword" />
+		 <result column="shell_content" jdbcType="VARCHAR" property="shellContent" />
+		 <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,title,shell_describe,shell_ip,shell_port,shell_username,shell_password,shell_content,create_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select id,userid,title,shell_describe,shell_ip,shell_content,create_time from shell where id = #{id}
+    </select>
+
+    <select id="selectPageList" resultType="java.util.Map">
+		select id,userid,title,shell_describe,shell_ip,shell_content,create_time from shell
+			${ew.customSqlSegment}
+	</select>
+
+</mapper>

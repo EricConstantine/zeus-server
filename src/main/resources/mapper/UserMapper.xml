@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.User">
+		 <id column="id" jdbcType="INTEGER" property="id" />
+		 <result column="userid" jdbcType="VARCHAR" property="userid" />
+		 <result column="username" jdbcType="VARCHAR" property="username" />
+		 <result column="password" jdbcType="VARCHAR" property="password" />
+		 <result column="type" jdbcType="INTEGER" property="type" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,userid,username,password,type,create_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from user
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+    <select id="selectPageList" resultType="java.util.Map">
+		select
+			id,userid,username,nickname,type,create_time,picture,email,phone
+		from user
+		${ew.customSqlSegment}
+	</select>
+
+	<select id="getProjects" resultType="java.util.Map">
+		select DISTINCT p.project_name as label,p.id as value from project p left join projectuser pu on p.id = pu.projectid
+		<where>
+			<if test="userid!=null and userid!=''">
+				OR pu.userid = #{userid}
+			</if>
+		</where>
+		UNION select p.project_name as label,p.id as value from project p where p.ispublic = 1
+	</select>
+
+	<select id="getAllProjects" resultType="java.util.Map">
+		select p.project_name as label,p.id as value from project p
+	</select>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.VersionsMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Versions">
+		 <id column="versionid" jdbcType="VARCHAR" property="versionid" />
+		 <result column="verson" jdbcType="VARCHAR" property="verson" />
+		 <result column="remark" jdbcType="VARCHAR" property="remark" />
+		 <result column="relative_path" jdbcType="VARCHAR" property="relativePath" />
+		 <result column="current_version" jdbcType="VARCHAR" property="currentVersion" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+		 <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     versionid,verson,remark,relative_path,current_version,create_time,update_time
+	</sql>
+
+    <!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from versions
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+	<update id="updateDefaultVersion">
+		update versions set current_version = 0
+	</update>
+
+</mapper>

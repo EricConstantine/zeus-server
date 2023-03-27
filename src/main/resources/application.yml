@@ -1,0 +1,53 @@
+server:
+  port: 8081
+# 应用名称
+spring:
+  application:
+    name: zeus-server
+  # 配置数据源信息
+  datasource:
+    # 设置默认的数据源或者数据源组,默认值即为master
+    dynamic:
+      primary: master
+    # 严格匹配数据源,默认false.true未匹配到指定数据源时抛异常,false使用默认数据源
+      strict: false
+      datasource:
+        master:
+          url: jdbc:mysql://xx.xxx.xxx.xx:13306/code?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: xxx
+          password: xxx
+#        slave_1:
+#          url: jdbc:mysql://localhost:3307/demo02?serverTimezone=UTC&characterEncoding=utf8&useSSL=false
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          username: root
+#          password: 123456
+    # 配置数据源类型
+    type: com.zaxxer.hikari.HikariDataSource
+  servlet:
+    multipart:
+      # 设置 上传文件的大小
+      max-file-size: 50MB
+  resources:
+    static-locations:
+      classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.user-data-path}
+# 配置mybatis-plus 日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  # 配置 mapper 文件位置
+  mapper-locations: classpath*:mapper/**/*.xml
+  # 配置扫描通用枚举
+  type-enums-package: com.sgcc.code.entity
+  # 设置逻辑删除默认值
+  global-config:
+    db-config:
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+web:
+  user-data-path:
+    /home/data
+zeus:
+  salt: zeus

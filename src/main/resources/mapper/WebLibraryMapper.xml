@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.WebLibraryMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.WebLibrary">
+		 <id column="id" jdbcType="INTEGER" property="id" />
+		 <result column="project_id" jdbcType="INTEGER" property="projectId" />
+		 <result column="ispublic" jdbcType="VARCHAR" property="ispublic" />
+		 <result column="web_title" jdbcType="VARCHAR" property="webTitle" />
+		 <result column="web_describe" jdbcType="VARCHAR" property="webDescribe" />
+		 <result column="web_content" jdbcType="VARCHAR" property="webContent" />
+		 <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,project_id,ispublic,web_title,web_describe,web_content,create_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from web_library
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+    <select id="selectPageList" resultType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from web_library where ispublic = 1
+		<if test="projectId!=null">
+			UNION select <include refid="Base_Column_List" /> from web_library where project_id = #{projectId}
+		</if>
+	</select>
+
+</mapper>

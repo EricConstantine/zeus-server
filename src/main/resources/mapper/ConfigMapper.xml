@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.ConfigMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Config">
+		 <id column="id" jdbcType="BIGINT" property="id" />
+		 <result column="projectid" jdbcType="VARCHAR" property="projectid" />
+		 <result column="name" jdbcType="VARCHAR" property="name" />
+		 <result column="config_describe" jdbcType="VARCHAR" property="configDescribe" />
+		 <result column="path" jdbcType="VARCHAR" property="path" />
+		 <result column="dbtype" jdbcType="INTEGER" property="dbtype" />
+		 <result column="dbhost" jdbcType="VARCHAR" property="dbhost" />
+		 <result column="dbname" jdbcType="VARCHAR" property="dbname" />
+		 <result column="dbuser" jdbcType="VARCHAR" property="dbuser" />
+		 <result column="dbpassword" jdbcType="VARCHAR" property="dbpassword" />
+		 <result column="userid" jdbcType="VARCHAR" property="userid" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,projectid,name,describe,path,dbtype,dbhost,dbname,dbuser,dbpassword,userid,create_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from config
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+	<select id="getConfigs" resultType="java.util.Map">
+		select name as label,id as value from config
+		<where>
+			<if test="userid!=null and userid!=''">
+				AND userid = #{userid}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectPageList" resultType="java.util.Map">
+		select c.*,p.project_name from config c left join project p on c.projectid = p.id
+		${ew.customSqlSegment}
+	</select>
+
+	<select id="queryAll" resultType="java.util.Map">
+		select c.*,p.project_name from config c left join project p on c.projectid = p.id
+		${ew.customSqlSegment}
+	</select>
+
+    <select id="queryMysqlTables" resultType="java.util.Map">
+		SELECT LOWER(table_name) tablename,IFNULL(table_comment,"无描述") comments FROM information_schema.tables WHERE table_schema=#{dbname} AND table_type="base table"
+	</select>
+
+	<select id="queryOracleTables" resultType="java.util.Map">
+		SELECT
+			LOWER( t.TABLE_NAME ) tablename,
+			NVL ( c.COMMENTS, '无描述' ) comments
+		FROM
+			all_tables t
+				LEFT JOIN all_tab_comments c ON t.OWNER = c.OWNER
+				AND t.TABLE_NAME = c.TABLE_NAME
+		WHERE
+			t.OWNER = #{dbuser} order by t.TABLE_NAME
+	</select>
+
+	<select id="getMysqlTableView" resultType="java.util.Map">
+		SELECT
+			LOWER( column_name ) columnName,
+			data_type AS dataType,
+			CASE
+
+				WHEN data_type = 'int' THEN
+					'11'
+				WHEN data_type = 'tinyint' THEN
+					'4'
+				WHEN data_type = 'bigint' THEN
+					'20' ELSE CAST( IFNULL( character_maximum_length, '' ) AS CHAR )
+				END AS columnLen,
+			column_comment AS commentName,
+			CASE
+
+				WHEN column_key = 'PRI' THEN
+					'PRIMARY KEY'
+				WHEN column_key = 'UNI' THEN
+					'UNIQUE'
+				WHEN is_nullable = 'Y' THEN
+					'NOT NULL' ELSE ''
+				END AS 'constraintName'
+		FROM
+			Information_schema.COLUMNS
+		WHERE
+			table_Name = #{tableName}
+		  AND table_schema = #{dbname}
+	</select>
+
+	<select id="getOracleTableView" resultType="java.util.Map">
+		SELECT
+			LOWER( atc.COLUMN_NAME ) columnName,
+			atc.DATA_TYPE AS dataType,
+			CASE
+
+				WHEN atc.DATA_TYPE = 'INTEGER' THEN
+					'38'
+				WHEN atc.DATA_TYPE = 'NUMBER' THEN
+					'38'
+				END AS columnLen,
+			acc.COMMENTS AS commentName,
+			CASE
+
+				WHEN atc.NULLABLE = 'Primary' THEN
+					'PRIMARY KEY'
+				WHEN atc.NULLABLE = 'Unique' THEN
+					'UNIQUE'
+				WHEN atc.NULLABLE = 'Y' THEN
+					'NOT NULL' ELSE ''
+				END AS constrainName
+		FROM
+			all_tab_columns atc
+				LEFT JOIN all_col_comments acc ON ( atc.TABLE_NAME = acc.TABLE_NAME AND atc.OWNER = acc.OWNER AND atc.COLUMN_NAME = acc.COLUMN_NAME )
+		WHERE
+			1 = 1
+		  AND atc.TABLE_NAME = #{tableName}
+		  AND atc.OWNER = #{dbname}
+	</select>
+
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.TemplateMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Template">
+		 <id column="id" jdbcType="BIGINT" property="id" />
+		 <result column="treeid" jdbcType="VARCHAR" property="treeid" />
+		 <result column="template_name" jdbcType="VARCHAR" property="templateName" />
+		 <result column="template_content" jdbcType="LONGVARCHAR" property="templateContent" />
+		 <result column="remark" jdbcType="VARCHAR" property="remark" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+		 <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,treeid,template_name,template_content,remark,create_time,update_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from template
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+	<update id="updateTemplate">
+		update template
+		<set>
+			<if test="templateName!=null and templateName!=''">template_name = #{templateName}</if>
+			<if test="templateContent!=null and templateContent!=''">template_content = #{templateContent}</if>
+			<if test="remark!=null and remark!=''">remark = #{remark}</if>
+		</set>
+		where treeid = #{treeid}
+	</update>
+
+	<select id="queryTemplates" resultType="java.util.Map">
+		select z.name,z.path,t.treeid,t.id,t.template_content from template t left join zonetree z on t.treeid = z.id
+		<where>
+			<if test="list!=null and list.size>0">
+				and t.treeid in
+				<foreach collection="list" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+	<select id="queryZoreTreeIds" resultType="java.lang.String">
+		SELECT name FROM zonetree
+		where projectid = #{projectId} and pid = (select id from zonetree where pid = 0 and projectid = #{projectId})
+	</select>
+
+</mapper>

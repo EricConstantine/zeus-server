@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.ZonetreeMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Zonetree">
+		 <id column="id" jdbcType="BIGINT" property="id" />
+		 <result column="pid" jdbcType="BIGINT" property="pid" />
+		 <result column="projectid" jdbcType="VARCHAR" property="projectid" />
+		 <result column="name" jdbcType="VARCHAR" property="name" />
+		 <result column="type" jdbcType="VARCHAR" property="type" />
+		 <result column="path" jdbcType="VARCHAR" property="path" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+		 <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,pid,projectid,name,type,path,create_time,update_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from zonetree
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+</mapper>

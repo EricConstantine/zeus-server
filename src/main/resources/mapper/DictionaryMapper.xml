@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgcc.code.mapper.DictionaryMapper">
+
+	<resultMap id="BaseResultMap" type="com.sgcc.code.entity.Dictionary">
+		 <id column="id" jdbcType="BIGINT" property="id" />
+		 <result column="projectid" jdbcType="VARCHAR" property="projectid" />
+		 <result column="dictionary_key" jdbcType="VARCHAR" property="dictionaryKey" />
+		 <result column="dictionary_value" jdbcType="VARCHAR" property="dictionaryValue" />
+		 <result column="dictionary_describe" jdbcType="VARCHAR" property="dictionaryDescribe" />
+		 <result column="create_time" jdbcType="DATE" property="createTime" />
+		 <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	     id,projectid,dictionary_key,dictionary_value,dictionary_describe,create_time,update_time
+	</sql>
+
+	<!-- resultType="java.util.Map" or resultMap="BaseResultMap" -->
+    <select id="getDetail" resultMap="BaseResultMap">
+        select 
+	    <include refid="Base_Column_List" />
+	    from dictionary
+	    ${ew.customSqlSegment}
+	    <if test="id>0">
+            AND id = #{id}
+        </if>
+    </select>
+
+</mapper>
