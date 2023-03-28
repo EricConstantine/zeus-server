@@ -3,7 +3,10 @@ package com.sgcc.code.common.utils;
 import com.sgcc.code.entity.ColumnClass;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author mww
@@ -175,22 +178,24 @@ public class NameOracleUtils {
 				columnClass.setRealType(dataType);
 
 				//获取字段长度
-				String columnLen = replace(String.valueOf(columnMap.get("columnLen")));
+				String columnLen = StringUtil.replace(String.valueOf(columnMap.get("columnLen")));
 				if(StringUtils.isNotBlank(columnLen)){
 					columnClass.setFiledLen(columnLen);
 				}
 				//获取字段精度
-				String scale = replace(String.valueOf(columnMap.get("scale")));
+				String scale = StringUtil.replace(String.valueOf(columnMap.get("scale")));
 				columnClass.setScale(scale);
-
+				columnClass.setNullable(columnMap.get("nullable"));
 				//转换字段名称，如 sys_name 变成 SysName
 				columnClass.setFILEDNAME(replaceUnderLineAndUpperCase(columnMap.get("columnName")));
 				//转换字段名称，如 sys_name 变成 sysName //首字母小写
 				columnClass.setFiledName(replaceUnderLine(columnMap.get("columnName")));
 				//字段在前端展示时的展示类型
-				columnClass.setIsKey(columnMap.get("isKey").equals("Y")?"true":"false");
+				columnClass.setIsKey(columnMap.get("isKey"));
 				//把字段中文名称放进对象里面
 				columnClass.setFiledDesc(columnMap.get("commentName"));
+				//默认值
+				columnClass.setDefaultValue(columnMap.get("defaultValue"));
 				//生成额外字段
 				columnClass.setJavaType(getJavaDataType(dataType,scale));
 				columnClass.setXmlType(getXmlDataType(dataType,scale));
@@ -200,18 +205,6 @@ public class NameOracleUtils {
 		return columnClassList;
 	}
 
-	/**
-	 * 使用java正则表达式去掉多余的.与0
-	 * @param s
-	 * @return  string
-	 */
-	public static String replace(String s){
-		if(null != s && s.indexOf(".") > 0){
-			s = s.replaceAll("0+?$", "");//去掉多余的0
-			s = s.replaceAll("[.]$", "");//如最后一位是.则去掉
-		}
-		return s;
-	}
 
 	/**
 	 * 整数转换

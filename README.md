@@ -1,3 +1,24 @@
+## Zeus使用手册
+----------
+Zeus代码生成器是一款自动代码生成工具，旨在快速生成基础的CRUD代码。
+
+后端是基于`springboot`、`freemarker`、`mybatisplus`实现，前端采用`vue3`、`elementplus`、`electron`技术。
+
+在此基础上也提供了一些高级功能，做到灵活配置，生成可扩展性强的代码。 客户端支持多开。同一个电脑可以打开多个客户端。可以分别登录管理员和普通用户的账号，管理员修改模板内容。普通用户生成代码。
+
+-  **[ZEUS官网](https://engini.vip/zeus/docs)**
+-  **[后端Gitee 仓库地址](https://gitee.com/rederic/zeus-server.git)** | [前端Gitee 仓库地址](https://gitee.com/rederic/zeus-view.git)
+-  **[后端GitHub 仓库地址](https://github.com/EricConstantine/zeus-server.git)** | [前端GitHub 仓库地址](https://github.com/EricConstantine/zeus-view.git)
+
+> [!TIP]
+> **优势**
+> 1. 项目结构可视化，文件树、文件图形化的模板编辑，操作模板更加直观、简洁。
+> 2. 使用Freemarker作为模板引擎，模板中支持Freemarker所有语法，系统提供强大的内置字典。模板操作更加灵活。
+> 3. Zeus可以作为作为mysql、oracle客户端，直接连接内网数据库。
+> 4. 脚本管理。取代Jenkins，轻量化快速更新打包项目。网页查看项目日志等功能。
+> 5. 方便团队开发项目，统一代码风格，规范化代码接口。
+
+客户端支持多开。同一个电脑可以打开多个客户端。可以分别登录管理员和普通用户的账号，管理员修改模板内容。普通用户生成代码。
 # ZEUS 代码生成器后台
 
 ## 1. 技术框架

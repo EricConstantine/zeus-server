@@ -219,13 +219,22 @@ public class NameMysqlUtils {
 				//转换字段名称，如 sys_name 变成 sysName //首字母小写
 				columnClass.setFiledName(replaceUnderLine(columnMap.get("columnName")));
 				//字段在前端展示时的展示类型
-				//columnClass.setIsKey(columnMap.get("constraintName").equals("PRIMARY KEY")?"true":"false");
-				columnClass.setIsKey(columnMap.get("isKey").equals("Y")?"true":"false");
+				columnClass.setIsKey(columnMap.get("isKey"));
 				//把字段中文名称放进对象里面
 				columnClass.setFiledDesc(columnMap.get("commentName"));
 				//生成额外字段
 				columnClass.setJavaType(getJavaDataType(columnMap.get("dataType")));
 				columnClass.setXmlType(getXmlDataType(columnMap.get("dataType")));
+				columnClass.setNullable(columnMap.get("nullable"));
+				columnClass.setDefaultValue(columnMap.get("defaultValue"));
+				//获取字段长度
+				String columnLen = StringUtil.replace(String.valueOf(columnMap.get("columnLen")));
+				if(StringUtils.isNotBlank(columnLen)){
+					columnClass.setFiledLen(columnLen);
+				}
+				//获取字段精度
+				String scale = StringUtil.replace(String.valueOf(columnMap.get("scale")));
+				columnClass.setScale(scale);
 				columnClassList.add(columnClass);
 			}
 		}

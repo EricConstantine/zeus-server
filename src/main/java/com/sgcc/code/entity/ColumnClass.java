@@ -32,6 +32,26 @@ public class ColumnClass implements Serializable {
 	private String xmlType;
 	/** 小数点位数 **/
 	private String scale;
+	/** 是否非空 **/
+	private String nullable;
+	/** 默认值 **/
+	private String defaultValue;
+
+	public String getNullable() {
+		return nullable;
+	}
+
+	public void setNullable(String nullable) {
+		this.nullable = nullable;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
 	public ColumnClass() {
 		super();

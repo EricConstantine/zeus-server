@@ -26,7 +26,18 @@ public class StringUtil {
             throw new CommonException(500,"ids格式不正确");
         }
     }
-
+    /**
+     * 使用java正则表达式去掉多余的.与0
+     * @param s
+     * @return  string
+     */
+    public static String replace(String s){
+        if(null != s && s.indexOf(".") > 0){
+            s = s.replaceAll("0+?$", "");//去掉多余的0
+            s = s.replaceAll("[.]$", "");//如最后一位是.则去掉
+        }
+        return s;
+    }
 
     public static String toString(Object obj) {
         return obj == null ? "" : obj.toString();

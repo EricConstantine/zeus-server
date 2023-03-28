@@ -1,3 +1,46 @@
+##Zeus User Manual
+
+----------
+
+Zeus Code Generator is an automated code generation tool designed to quickly generate basic CRUD code.
+
+
+
+The back-end is implemented based on 'spring boot', 'freemarker', and 'mybatisplus'. The front-end uses' vue3', 'elementplus', and' electric 'technologies.
+
+
+
+On this basis, some advanced functions are also provided to achieve flexible configuration and generate code with strong scalability. The client supports multiple opening. Multiple clients can be opened on the same computer. You can log in to the account of an administrator and an ordinary user, and the administrator can modify the template content. Normal user generated code.
+
+
+
+-* * [ZEUS official website]（ https://engini.vip/zeus/docs )**
+
+-* * [backend Gitee warehouse address]（ https://gitee.com/rederic/zeus-server.git ）**| [Front end Gitee warehouse address]（ https://gitee.com/rederic/zeus-view.git )
+
+-* * [backend GitHub warehouse address]（ https://github.com/EricConstantine/zeus-server.git ）**| [Front end GitHub warehouse address]（ https://github.com/EricConstantine/zeus-view.git )
+
+
+
+> [!TIP]
+
+>* * Advantages**
+
+> 1. Visualization of the project structure, file tree, and graphical template editing of files make the operation template more intuitive and concise.
+
+> 2. Freemarker is used as the template engine, and all Freemarker syntax is supported in the template. The system provides a powerful built-in dictionary. Template operation is more flexible.
+
+> 3. Zeus can be used as a MySQL or Oracle client to directly connect to intranet databases.
+
+> 4. Script management. Replace Jenkins and quickly update packaged projects with lightweight. Web page viewing project logs and other functions.
+
+> 5. Facilitate team development projects, unify code styles, and standardize code interfaces.
+
+
+
+The client supports multiple opening. Multiple clients can be opened on the same computer. You can log in to the account of an administrator and an ordinary user, and the administrator can modify the template content. Normal user generated code.
+
+
 #ZEUS code generator background
 
 
