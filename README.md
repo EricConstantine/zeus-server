@@ -7,6 +7,7 @@ Zeus代码生成器是一款自动代码生成工具，旨在快速生成基础�
 在此基础上也提供了一些高级功能，做到灵活配置，生成可扩展性强的代码。 客户端支持多开。同一个电脑可以打开多个客户端。可以分别登录管理员和普通用户的账号，管理员修改模板内容。普通用户生成代码。
 
 -  **[ZEUS官网](https://engini.vip/zeus/docs)**
+-  **[客户端在线下载](https://engini.vip/zeus/ZeusSetup.exe)**
 -  **[后端Gitee 仓库地址](https://gitee.com/rederic/zeus-server.git)** | [前端Gitee 仓库地址](https://gitee.com/rederic/zeus-view.git)
 -  **[后端GitHub 仓库地址](https://github.com/EricConstantine/zeus-server.git)** | [前端GitHub 仓库地址](https://github.com/EricConstantine/zeus-view.git)
 
